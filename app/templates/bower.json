@@ -1,0 +1,26 @@
+{
+  "name": "<%= appname %>",
+  "version": "<%= appversion %>",
+  "authors": [
+    "<%= appauthor %> <<%= appemail %>>"
+  ],
+  "moduleType": [
+    "globales"
+  ],
+  "license": "<%= applicense %>",
+  "ignore": [
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1",
+    <% if (includeBootstrap){ %>
+    "bootstrap-sass": "^3.3.7",
+    <%= } %>
+    "material-design-lite": "material-design-lite",
+    "bourbon": "^4.2.7",
+    "neat": "^1.8.0"
+  }
+}

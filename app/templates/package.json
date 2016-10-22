@@ -1,0 +1,26 @@
+{
+  "name": "<%= appname %>",
+  "version": "<%= appversion %>",
+  "description": "<%= appdescription %>",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bootstrap-sass",
+    "MDL",
+    "WebStarterKit",
+    "sass",
+    "scss",
+    "pug",
+    "Javascripts"
+  ],
+  "author": "<%= appauthor %>",
+  "license": "<%= applicense %>",
+  "devDependencies": {
+    "grunt": "~1.0.1",
+    "grunt-contrib-clean": "~1.0.0",
+    "grunt-contrib-jshint": "~1.0.0",
+    "grunt-contrib-requirejs": "~1.0.0"
+  }
+}

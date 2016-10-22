@@ -1,0 +1,12 @@
+<% if (includeBootstrap) { %>
+@import ../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss
+<% } else if (includeMdl) {%>
+@import ../bower_components/mdl/src/material-design-lite
+@import demo/demo
+<% } %>
+<% if (includeBourbon) {%>
+@import ../bower_components/bourbon/app/assets/stylesheets/bourbon
+<% } %>
+<% if (includeNeat) {%>
+@import ../bower_components/neat/app/assets/stylesheets/neat
+<% } %>
