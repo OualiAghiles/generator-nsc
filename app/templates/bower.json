@@ -20,8 +20,6 @@
     <% } %>
     <% if (includeBootstrap){ %>
     "bootstrap-sass": "^3.3.7",
-    <% } else if (includeMdl){ %>
-    "material-design-lite": "material-design-lite",
     <% } %>
     <% if (includeBourbon){ %>
     "bourbon": "^4.2.7",

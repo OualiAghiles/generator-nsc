@@ -13,79 +13,75 @@ module.exports = generators.Base.extend({
         sourceRoot = this.sourceRoot(),
         appDir = destRoot + '/app',
         templateContext = {
-          
+
           // read me
-          
+
           appname: this.appname,
           appdescription: this.appdescription,
           appversion: this.appversion,
           applicense: this.applicense,
           appauthor: this.appauthor,
           appemail: this.appemail,
-          
+
           // language
-          
+
           includePug:this.includePug,
           includeSass:this.includeSass,
-          
-          // libs          
-          
+
+          // libs
+
           includeBourbon:this.includeBourbon,
-          includeNeat:this.includeNeat,          
+          includeNeat:this.includeNeat,
           includeModernizr:this.includeModernizr,
-          
+
           //frameworks
-          
+
           includeBootstrap:this.includeBootstrap,
-          includeMdl:this.includeMdl,
           includeJQuery:this.includeJQuery,
-          
-          // auters 
-          
+
+          // auters
+
           date: (new Date).toISOString().split('T')[0],
           name: this.pkg.name,
           version: this.pkg.version,
           includeBabel: this.options['babel'],
           testFramework: this.options['test-framework']
         };
-    
+
     // creating directories structure
-    
+
     mkdirp(appDir + '/scripts');
     mkdirp(appDir + '/images');
     mkdirp(appDir + '/pugFiles');
     mkdirp(appDir + '/styles');
     mkdirp(appDir + '/fonts');
-    
+
     // copie des fichiers
-    
-      
+
+
       // config editor
-    
+
     this.fs.copy(sourceRoot + '/.editorconfig', destRoot + '/.editorconfig');
-      
+
       // babel for gulpfile
-    
+
     this.fs.copy(sourceRoot + '/.babelrc', destRoot + '/.babelrc');
-      
+
       // jshint blanc
-    
+
     this.fs.copy(sourceRoot + '/.jshintrc', destRoot + '/.jshintrc');
     this.fs.copy(sourceRoot + '/robots.txt', appDir + '/robots.txt');
     this.fs.copy(sourceRoot + '/humans.txt', appDir + '/humans.txt');
-     
-      // javascript for application blanc
-    
-    this.fs.copy(sourceRoot + '\\app\\main.js', appDir + '/scripts/main.js');
 
+      // javascript for application blanc
+
+    this.fs.copy(sourceRoot + '\\app\\main.js', appDir + '/scripts/main.js');
       // copies des fichier avec application des condition
-    
-    
     this.fs.copyTpl(sourceRoot + '/CONTRINUTING.md', destRoot + '/CONTRINUTING.md', templateContext);
-    this.fs.copyTpl(sourceRoot + '\\_package.json', destRoot + '/package.json', templateContext);
-    this.fs.copyTpl(sourceRoot + '\\gulpfile.js', destRoot + '/gulpfile.babel.js', templateContext);
+    this.fs.copyTpl(sourceRoot + '/_package.json', destRoot + '/package.json', templateContext);
+    this.fs.copyTpl(sourceRoot + '/gulpfile.js', destRoot + '/gulpfile.babel.js', templateContext);
     this.fs.copyTpl(sourceRoot + '/README.md', destRoot + '/README.md', templateContext);
-    
+
   },
     _h5bp: function () {
       this.fs.copy(
@@ -99,7 +95,7 @@ module.exports = generators.Base.extend({
       ) },
 
     // git file config
-  
+
     _git: function () {
       var destRoot = this.destinationRoot(),
           sourceRoot = this.sourceRoot();
@@ -107,9 +103,9 @@ module.exports = generators.Base.extend({
 
       this.fs.copy(sourceRoot + '\\.gitattributes', destRoot + '\\.gitattributes');
     },
-  
+
     // bower config
-  
+
     _bower: function () {
       var destRoot = this.destinationRoot(),
           sourceRoot = this.sourceRoot();
@@ -140,19 +136,6 @@ module.exports = generators.Base.extend({
                 'dist/css/bootstrap.css',
                 'dist/js/bootstrap.js',
                 'dist/fonts/*'
-              ]
-            }
-          };
-        }
-      }
-      if (this.includeMdl) {
-        if (this.includeSass) {
-          bowerJson.devDependencies['mdl'] = '~1.2.1';
-          bowerJson.overrides = {
-            'material-design-lite': {
-              'main': [
-                'src/material-design-lite.scss',
-                'src/**/*.js'
               ]
             }
           };
@@ -194,9 +177,9 @@ module.exports = generators.Base.extend({
       this.fs.copy(sourceRoot + '\\.bowerrc',destRoot + '\\.bowerrc');
     },
       // fin bower,
-      
+
     // style config
-  
+
     _styles: function () {
       var destRoot = this.destinationRoot(),
           sourceRoot = this.sourceRoot(),
@@ -208,19 +191,16 @@ module.exports = generators.Base.extend({
       } else {
         css += '.css';
       }
-      this.fs.copyTpl(sourceRoot + '\\app\\styles\\' + css, appDir + '/styles/' + css,{includeBootstrap: this.includeBootstrap, includeMdl: this.includeMdl,includeBourbon: this.includeBourbon,includeNeat: this.includeNeat});
-      this.fs.copyTpl(sourceRoot + '\\app\\styles\\demo\\demo.sass', appDir + '/styles/demo/demo.sass' ,{includeMdl: this.includeMdl,includeBourbon: this.includeBourbon,includeNeat: this.includeNeat});
-    }, 
+      this.fs.copyTpl(sourceRoot + '\\app\\styles\\' + css, appDir + '/styles/' + css,{includeBootstrap: this.includeBootstrap, includeBourbon: this.includeBourbon,includeNeat: this.includeNeat});
+    },
       // fin styles,
-    
+
     // html config
-    
+
     _html: function () {
       var destRoot = this.destinationRoot(),
           sourceRoot = this.sourceRoot();
       var bsPath;
-      var mdlPath;
-
       // path prefix for Bootstrap JS files
       if (this.includeBootstrap) {
         bsPath = 'app/bower_components/';
@@ -230,27 +210,18 @@ module.exports = generators.Base.extend({
         } else {
           bsPath += 'bootstrap/js/';
         }
-      } else if (this.includeMdl) {
-        mdlPath = 'app/bower_components/';
-
-        if (this.includeSass) {
-          mdlPath += 'mdl/src/';
-        } else {
-          mdlPath += 'material-design-lite/material.min.js';
-        }
       }
-
       if (this.includePug){
           if(this.includeBootstrap){
-              this.fs.copyTpl( 
-                sourceRoot + '\\app\\pugFiles\\layouts\\bslayouts.pug', 
-                destRoot + '/app/pugFiles/index.pug', { 
-                  appname: this.appname, 
-                  includeSass: this.includeSass, 
-                  includeBootstrap: this.includeBootstrap, 
-                  includeModernizr: this.includeModernizr, 
-                  includeJQuery: this.includeJQuery, 
-                  bsPath: bsPath, 
+              this.fs.copyTpl(
+                sourceRoot + '\\app\\pugFiles\\layouts\\bslayouts.pug',
+                destRoot + '/app/pugFiles/index.pug', {
+                  appname: this.appname,
+                  includeSass: this.includeSass,
+                  includeBootstrap: this.includeBootstrap,
+                  includeModernizr: this.includeModernizr,
+                  includeJQuery: this.includeJQuery,
+                  bsPath: bsPath,
                   bsPlugins:[
                     'affix',
                     'alert',
@@ -265,75 +236,47 @@ module.exports = generators.Base.extend({
                     'collapse',
                     'tab'
                   ]});
-          } else if(this.includeMdl){ 
-              this.fs.copyTpl(sourceRoot +'\\app\\pugFiles\\layouts\\mdllayouts.pug', 
-              destRoot + '/app/pugFiles/index.pug',
-              {
-              appname: this.appname, 
-              includeSass: this.includeSass, 
-              includeMdl: this.includeMdl, 
-              includeModernizr: this.includeModernizr, 
-              includeJQuery: this.includeJQuery, mdlPath: mdlPath, 
-              mdlPlugins: [
-                "mdlComponentHandler.js", 
-                "button/button.js", 
-                "checkbox/checkbox.js", 
-                "icon-toggle/icon-toggle.js", 
-                "menu/menu.js", 
-                "progress/progress.js", 
-                "radio/radio.js", 
-                "slider/slider.js", 
-                "spinner/spinner.js", 
-                "switch/switch.js", 
-                "tabs/tabs.js", 
-                "textfield/textfield.js", 
-                "tooltip/tooltip.js", 
-                "layout/layout.js", 
-                "data-table/data-table.js", 
-                "ripple/ripple.js", 
-                "scripts/main.js" 
-              ] } ); }
-
+          }
       } else{
-            this.fs.copyTpl(sourceRoot + '\\index.html',  
+            this.fs.copyTpl(sourceRoot + '\\index.html',
               destRoot + '/app/index.html',
                 {
                   appname: this.appname,
-                  includeSass: this.includeSass, 
-                  includeBootstrap: this.includeBootstrap,               
-                  includeModernizr: this.includeModernizr, 
-                  includeJQuery: this.includeJQuery, 
+                  includeSass: this.includeSass,
+                  includeBootstrap: this.includeBootstrap,
+                  includeModernizr: this.includeModernizr,
+                  includeJQuery: this.includeJQuery,
                   bsPath: bsPath,
-                  bsPlugins: [ 
-                    'affix', 
-                    'alert', 
-                    'dropdown', 
-                    'tooltip', 
-                    'modal', 
-                    'transition', 
-                    'button', 
-                    'popover', 
-                    'carousel', 
-                    'scrollspy', 
-                    'collapse', 
-                    'tab'          
+                  bsPlugins: [
+                    'affix',
+                    'alert',
+                    'dropdown',
+                    'tooltip',
+                    'modal',
+                    'transition',
+                    'button',
+                    'popover',
+                    'carousel',
+                    'scrollspy',
+                    'collapse',
+                    'tab'
                   ]}
       );
       }
         },
-    
+
       // fin html
 
 
   // init (+ welcome text)
   initializing: function () {
-      var message = chalk.yellow.bold('Welcome to NSC Generator  \n ') + chalk.yellow(' The best Web Starter kit  \n Bootstrap sass mdl pug  ');
+      var message = chalk.yellow.bold('Welcome to NSC Generator  \n ') + chalk.yellow(' The best Web Starter kit  \n Bootstrap sass pug  ');
       this.log(yosay(message, { maxLength: 20 }));
       this.pkg = require('../package.json');
   },
-  
+
   // prompting (all questions here)
-  
+
   prompting: function () {
 
       var prompts = [
@@ -387,7 +330,7 @@ module.exports = generators.Base.extend({
             name: 'bourbon',
             value: 'includeBourbon',
             checked: false
-            }, 
+            },
             {
             name: 'Neat',
             value: 'includeNeat',
@@ -401,15 +344,9 @@ module.exports = generators.Base.extend({
         choices: [ {
           name: 'Bootstrap',
           value: 'includeBootstrap',
-        },{
-          name: 'MDL',
-          value: 'includeMdl',
-        },{
-          name: 'Zurb Foundation 6',
-          value: 'includeFoundation',
         }]
       },
-        
+
         {
         type: 'confirm',
         name: 'includeJQuery',
@@ -441,35 +378,31 @@ module.exports = generators.Base.extend({
         this.includeJQuery = answers.includeJQuery;
 
         // prepross / libs
-        
+
         this.includeSass = hasPrepross('includeSass');
         this.includePug = hasPrepross('includePug');
         this.includeBourbon = hasPrepross('includeBourbon');
         this.includeNeat = hasPrepross('includeNeat');
         this.includeModernizr = hasPrepross('includeModernizr');
-        
-        // frameworks
-        
-        this.includeBootstrap = hasFeature('includeBootstrap');
-        this.includeMdl = hasFeature('includeMdl');
-        this.includeMdl = hasFeature('includeFountation');
-        this.includeMdl = hasFeature('includeSemanticUi');
 
+        // frameworks
+
+        this.includeBootstrap = hasFeature('includeBootstrap');
 
       }.bind(this));
-    }, 
+    },
     // fin prompting
-  // yeoman config 
-  
+  // yeoman config
+
   configuring: function () {
     this.config.save();
   },
-  
+
   /**
-  * exec all functions 
+  * exec all functions
   * npm and bower installation
   */
-  
+
   writing:function () {
     this._creatProjectFileSystem();
     this._bower();
@@ -480,7 +413,7 @@ module.exports = generators.Base.extend({
   install: function () {
       var install = chalk.white.bold('Installation  \n Running \n') + chalk.green('" npm install "\n && " bower install "  ');
       this.log(install, { maxLength: 25 });
-     //this.npmInstall();
+     this.npmInstall();
      this.bowerInstall();
 
   }
