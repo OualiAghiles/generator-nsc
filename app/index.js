@@ -76,14 +76,14 @@ module.exports = generators.Base.extend({
 
       // javascript for application blanc
 
-    this.fs.copy(sourceRoot + '\\app\\main.js', appDir + '/scripts/main.js');
+    this.fs.copy(sourceRoot + '/app/main.js', appDir + '/scripts/main.js');
 
       // copies des fichier avec application des condition
 
 
     this.fs.copyTpl(sourceRoot + '/CONTRINUTING.md', destRoot + '/CONTRINUTING.md', templateContext);
-    this.fs.copyTpl(sourceRoot + '\\_package.json', destRoot + '/package.json', templateContext);
-    this.fs.copyTpl(sourceRoot + '\\gulpfile.js', destRoot + '/gulpfile.babel.js', templateContext);
+    this.fs.copyTpl(sourceRoot + '/_package.json', destRoot + '/package.json', templateContext);
+    this.fs.copyTpl(sourceRoot + '/gulpfile.js', destRoot + '/gulpfile.babel.js', templateContext);
     this.fs.copyTpl(sourceRoot + '/README.md', destRoot + '/README.md', templateContext);
 
   },
@@ -103,9 +103,9 @@ module.exports = generators.Base.extend({
     _git: function () {
       var destRoot = this.destinationRoot(),
           sourceRoot = this.sourceRoot();
-      this.fs.copy(sourceRoot + '\\.gitignore', destRoot + '\\.gitignore');
+      this.fs.copy(sourceRoot + '/.gitignore', destRoot + '/.gitignore');
 
-      this.fs.copy(sourceRoot + '\\.gitattributes', destRoot + '\\.gitattributes');
+      this.fs.copy(sourceRoot + '/.gitattributes', destRoot + '/.gitattributes');
     },
 
     // bower config
@@ -178,7 +178,7 @@ module.exports = generators.Base.extend({
       }
 
       this.fs.writeJSON('bower.json', bowerJson);
-      this.fs.copy(sourceRoot + '\\.bowerrc',destRoot + '\\.bowerrc');
+      this.fs.copy(sourceRoot + '/.bowerrc',destRoot + '/.bowerrc');
     },
       // fin bower,
 
@@ -195,8 +195,8 @@ module.exports = generators.Base.extend({
       } else {
         css += '.css';
       }
-      this.fs.copyTpl(sourceRoot + '\\app\\styles\\' + css, appDir + '/styles/' + css,{includeBootstrap: this.includeBootstrap,includeBourbon: this.includeBourbon,includeNeat: this.includeNeat});
-      this.fs.copyTpl(sourceRoot + '\\app\\styles\\demo\\demo.sass', appDir + '/styles/demo/demo.sass' ,{includeBourbon: this.includeBourbon,includeNeat: this.includeNeat});
+      this.fs.copyTpl(sourceRoot + '/app/styles/' + css, appDir + '/styles/' + css,{includeBootstrap: this.includeBootstrap, includeMdl: this.includeMdl,includeBourbon: this.includeBourbon,includeNeat: this.includeNeat});
+      this.fs.copyTpl(sourceRoot + '/app/styles/demo/demo.sass', appDir + '/styles/demo/demo.sass' ,{includeMdl: this.includeMdl,includeBourbon: this.includeBourbon,includeNeat: this.includeNeat});
     },
       // fin styles,
 
@@ -221,7 +221,7 @@ module.exports = generators.Base.extend({
       if (this.includePug){
           if(this.includeBootstrap){
               this.fs.copyTpl(
-                sourceRoot + '\\app\\pugFiles\\layouts\\bslayouts.pug',
+                sourceRoot + '/app/pugFiles/layouts/bslayouts.pug', 
                 destRoot + '/app/pugFiles/index.pug', {
                   appname: this.appname,
                   includeSass: this.includeSass,
@@ -243,10 +243,37 @@ module.exports = generators.Base.extend({
                     'collapse',
                     'tab'
                   ]});
-          }
+          } else if(this.includeMdl){ 
+              this.fs.copyTpl(sourceRoot +'\\app\\pugFiles\\layouts\\mdllayouts.pug', 
+              destRoot + '/app/pugFiles/index.pug',
+              {
+              appname: this.appname, 
+              includeSass: this.includeSass, 
+              includeMdl: this.includeMdl, 
+              includeModernizr: this.includeModernizr, 
+              includeJQuery: this.includeJQuery, mdlPath: mdlPath, 
+              mdlPlugins: [
+                "mdlComponentHandler.js", 
+                "button/button.js", 
+                "checkbox/checkbox.js", 
+                "icon-toggle/icon-toggle.js", 
+                "menu/menu.js", 
+                "progress/progress.js", 
+                "radio/radio.js", 
+                "slider/slider.js", 
+                "spinner/spinner.js", 
+                "switch/switch.js", 
+                "tabs/tabs.js", 
+                "textfield/textfield.js", 
+                "tooltip/tooltip.js", 
+                "layout/layout.js", 
+                "data-table/data-table.js", 
+                "ripple/ripple.js", 
+                "scripts/main.js" 
+              ] } ); }
 
       } else{
-            this.fs.copyTpl(sourceRoot + '\\index.html',
+            this.fs.copyTpl(sourceRoot + '/index.html',  
               destRoot + '/app/index.html',
                 {
                   appname: this.appname,
@@ -391,6 +418,7 @@ module.exports = generators.Base.extend({
         this.includePug = hasPrepross('includePug');
         this.includeBourbon = hasPrepross('includeBourbon');
         this.includeNeat = hasPrepross('includeNeat');
+        this.includeModernizr = hasPrepross('includeModernizr');
 
         // frameworks
 
