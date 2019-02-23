@@ -221,7 +221,7 @@ module.exports = generators.Base.extend({
       if (this.includePug){
           if(this.includeBootstrap){
               this.fs.copyTpl(
-                sourceRoot + '/app/pugFiles/layouts/bslayouts.pug', 
+                sourceRoot + '/app/pugFiles/layouts/bslayouts.pug',
                 destRoot + '/app/pugFiles/index.pug', {
                   appname: this.appname,
                   includeSass: this.includeSass,
@@ -243,37 +243,38 @@ module.exports = generators.Base.extend({
                     'collapse',
                     'tab'
                   ]});
-          } else if(this.includeMdl){ 
-              this.fs.copyTpl(sourceRoot +'\\app\\pugFiles\\layouts\\mdllayouts.pug', 
+
+          } else if(this.includeMdl){
+              this.fs.copyTpl(sourceRoot +'/app/pugFiles/layouts/mdllayouts.pug',
               destRoot + '/app/pugFiles/index.pug',
               {
-              appname: this.appname, 
-              includeSass: this.includeSass, 
-              includeMdl: this.includeMdl, 
-              includeModernizr: this.includeModernizr, 
-              includeJQuery: this.includeJQuery, mdlPath: mdlPath, 
+              appname: this.appname,
+              includeSass: this.includeSass,
+              includeMdl: this.includeMdl,
+              includeModernizr: this.includeModernizr,
+              includeJQuery: this.includeJQuery, mdlPath: mdlPath,
               mdlPlugins: [
-                "mdlComponentHandler.js", 
-                "button/button.js", 
-                "checkbox/checkbox.js", 
-                "icon-toggle/icon-toggle.js", 
-                "menu/menu.js", 
-                "progress/progress.js", 
-                "radio/radio.js", 
-                "slider/slider.js", 
-                "spinner/spinner.js", 
-                "switch/switch.js", 
-                "tabs/tabs.js", 
-                "textfield/textfield.js", 
-                "tooltip/tooltip.js", 
-                "layout/layout.js", 
-                "data-table/data-table.js", 
-                "ripple/ripple.js", 
-                "scripts/main.js" 
+                "mdlComponentHandler.js",
+                "button/button.js",
+                "checkbox/checkbox.js",
+                "icon-toggle/icon-toggle.js",
+                "menu/menu.js",
+                "progress/progress.js",
+                "radio/radio.js",
+                "slider/slider.js",
+                "spinner/spinner.js",
+                "switch/switch.js",
+                "tabs/tabs.js",
+                "textfield/textfield.js",
+                "tooltip/tooltip.js",
+                "layout/layout.js",
+                "data-table/data-table.js",
+                "ripple/ripple.js",
+                "scripts/main.js"
               ] } ); }
 
       } else{
-            this.fs.copyTpl(sourceRoot + '/index.html',  
+            this.fs.copyTpl(sourceRoot + '/index.html',
               destRoot + '/app/index.html',
                 {
                   appname: this.appname,
