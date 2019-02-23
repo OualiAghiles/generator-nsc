@@ -221,7 +221,7 @@ module.exports = generators.Base.extend({
       if (this.includePug){
           if(this.includeBootstrap){
               this.fs.copyTpl(
-                sourceRoot + '/app/pugFiles/layouts/bslayouts.pug',
+                sourceRoot + '/app/pugFiles/layouts/bslayouts.pug', 
                 destRoot + '/app/pugFiles/index.pug', {
                   appname: this.appname,
                   includeSass: this.includeSass,
@@ -243,9 +243,8 @@ module.exports = generators.Base.extend({
                     'collapse',
                     'tab'
                   ]});
-
           } else if(this.includeMdl){
-              this.fs.copyTpl(sourceRoot +'/app/pugFiles/layouts/mdllayouts.pug',
+              this.fs.copyTpl(sourceRoot +'/app/pugFiles/layouts/mdllayouts.pug', 
               destRoot + '/app/pugFiles/index.pug',
               {
               appname: this.appname,
@@ -274,7 +273,7 @@ module.exports = generators.Base.extend({
               ] } ); }
 
       } else{
-            this.fs.copyTpl(sourceRoot + '/index.html',
+            this.fs.copyTpl(sourceRoot + '/index.html',  
               destRoot + '/app/index.html',
                 {
                   appname: this.appname,
