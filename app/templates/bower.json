@@ -19,9 +19,10 @@
     "jquery": "^3.1.1",
     <% } %>
     <% if (includeBootstrap){ %>
-    "bootstrap-sass": "^3.3.7",
-    <% } else if (includeMdl){ %>
-    "material-design-lite": "material-design-lite",
+    "bootstrap": "^4",
+    <% } else if (includeBulma){ %>
+    "bulma": "^0.7.4",
+    "fontawesome": "^5.7.0",
     <% } %>
     <% if (includeBourbon){ %>
     "bourbon": "^4.2.7",
