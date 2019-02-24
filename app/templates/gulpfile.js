@@ -126,27 +126,8 @@ gulp.task('styles', () => {
          './app/bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js',
          './app/bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js',
          './app/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js',
-      <% } else if (includeMdl){ %>
-        // Component handler
-        './app/bower_components/mdl/src/mdlComponentHandler.js',
-        // Base components
-        './app/bower_components/mdl/src/button/button.js',
-        './app/bower_components/mdl/src/checkbox/checkbox.js',
-        './app/bower_components/mdl/src/icon-toggle/icon-toggle.js',
-        './app/bower_components/mdl/src/menu/menu.js',
-        './app/bower_components/mdl/src/progress/progress.js',
-        './app/bower_components/mdl/src/radio/radio.js',
-        './app/bower_components/mdl/src/slider/slider.js',
-        './app/bower_components/mdl/src/spinner/spinner.js',
-        './app/bower_components/mdl/src/switch/switch.js',
-        './app/bower_components/mdl/src/tabs/tabs.js',
-        './app/bower_components/mdl/src/textfield/textfield.js',
-        './app/bower_components/mdl/src/tooltip/tooltip.js',
-        // Complex components (which reuse base components)
-        './app/bower_components/mdl/src/layout/layout.js',
-        './app/bower_components/mdl/src/data-table/data-table.js',
-        // And finally, the ripples
-        './app/bower_components/mdl/src/ripple/ripple.js',
+      <% } else if (includeBulma) { %>
+        './app/bower_components/fontawesome/js/all.js',
         <% } %>
           './app/scripts/main.js'
         ])
@@ -214,7 +195,7 @@ gulp.task('serve', ['scripts', 'styles','html'], () => {
     // Customize the Browsersync console logging prefix
     logPrefix: 'NSC',
     // Allow scroll syncing across breakpoints
-    <% if (includeMdl) { %>
+    <% if (includeBulma) { %>
     scrollElementMapping: ['main', '.mdl-layout'],
     // Run as an https by uncommenting 'https: true'
     // Note: this uses an unsigned certificate which on first access
@@ -252,7 +233,7 @@ gulp.task('serve:dist', ['default'], () =>
   browserSync({
     notify: false,
     logPrefix: 'NSC',
-      <% if (includeMdl){ %>
+      <% if (includeBulma){ %>
     // Allow scroll syncing across breakpoints
     scrollElementMapping: ['main', '.mdl-layout'],
     // Run as an https by uncommenting 'https: true'

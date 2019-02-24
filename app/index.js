@@ -13,79 +13,79 @@ module.exports = generators.Base.extend({
         sourceRoot = this.sourceRoot(),
         appDir = destRoot + '/app',
         templateContext = {
-          
+
           // read me
-          
+
           appname: this.appname,
           appdescription: this.appdescription,
           appversion: this.appversion,
           applicense: this.applicense,
           appauthor: this.appauthor,
           appemail: this.appemail,
-          
+
           // language
-          
+
           includePug:this.includePug,
           includeSass:this.includeSass,
-          
-          // libs          
-          
+
+          // libs
+
           includeBourbon:this.includeBourbon,
-          includeNeat:this.includeNeat,          
+          includeNeat:this.includeNeat,
           includeModernizr:this.includeModernizr,
-          
+
           //frameworks
-          
+
           includeBootstrap:this.includeBootstrap,
-          includeMdl:this.includeMdl,
+          includeBulma:this.includeBulma,
           includeJQuery:this.includeJQuery,
-          
-          // auters 
-          
+
+          // auters
+
           date: (new Date).toISOString().split('T')[0],
           name: this.pkg.name,
           version: this.pkg.version,
           includeBabel: this.options['babel'],
           testFramework: this.options['test-framework']
         };
-    
+
     // creating directories structure
-    
+
     mkdirp(appDir + '/scripts');
     mkdirp(appDir + '/images');
     mkdirp(appDir + '/pugFiles');
     mkdirp(appDir + '/styles');
     mkdirp(appDir + '/fonts');
-    
+
     // copie des fichiers
-    
-      
+
+
       // config editor
-    
+
     this.fs.copy(sourceRoot + '/.editorconfig', destRoot + '/.editorconfig');
-      
+
       // babel for gulpfile
-    
+
     this.fs.copy(sourceRoot + '/.babelrc', destRoot + '/.babelrc');
-      
+
       // jshint blanc
-    
+
     this.fs.copy(sourceRoot + '/.jshintrc', destRoot + '/.jshintrc');
     this.fs.copy(sourceRoot + '/robots.txt', appDir + '/robots.txt');
     this.fs.copy(sourceRoot + '/humans.txt', appDir + '/humans.txt');
-     
+
       // javascript for application blanc
-    
-    this.fs.copy(sourceRoot + '\\app\\main.js', appDir + '/scripts/main.js');
+
+    this.fs.copy(sourceRoot + '/app/main.js', appDir + '/scripts/main.js');
 
       // copies des fichier avec application des condition
-    
-    
+
+
     this.fs.copyTpl(sourceRoot + '/CONTRINUTING.md', destRoot + '/CONTRINUTING.md', templateContext);
-    this.fs.copyTpl(sourceRoot + '\\_package.json', destRoot + '/package.json', templateContext);
-    this.fs.copyTpl(sourceRoot + '\\gulpfile.js', destRoot + '/gulpfile.babel.js', templateContext);
+    this.fs.copyTpl(sourceRoot + '/_package.json', destRoot + '/package.json', templateContext);
+    this.fs.copyTpl(sourceRoot + '/gulpfile.js', destRoot + '/gulpfile.babel.js', templateContext);
     this.fs.copyTpl(sourceRoot + '/README.md', destRoot + '/README.md', templateContext);
-    
+
   },
     _h5bp: function () {
       this.fs.copy(
@@ -99,17 +99,17 @@ module.exports = generators.Base.extend({
       ) },
 
     // git file config
-  
+
     _git: function () {
       var destRoot = this.destinationRoot(),
           sourceRoot = this.sourceRoot();
-      this.fs.copy(sourceRoot + '\\.gitignore', destRoot + '\\.gitignore');
+      this.fs.copy(sourceRoot + '/.gitignore', destRoot + '/.gitignore');
 
-      this.fs.copy(sourceRoot + '\\.gitattributes', destRoot + '\\.gitattributes');
+      this.fs.copy(sourceRoot + '/.gitattributes', destRoot + '/.gitattributes');
     },
-  
+
     // bower config
-  
+
     _bower: function () {
       var destRoot = this.destinationRoot(),
           sourceRoot = this.sourceRoot();
@@ -121,9 +121,9 @@ module.exports = generators.Base.extend({
 
       if (this.includeBootstrap) {
         if (this.includeSass) {
-          bowerJson.devDependencies['bootstrap-sass'] = '~3.3.7';
+          bowerJson.devDependencies['bootstrap'] = '~4.0';
           bowerJson.overrides = {
-            'bootstrap-sass': {
+            'bootstrap': {
               'main': [
                 'assets/stylesheets/_bootstrap.scss',
                 'assets/fonts/bootstrap/*',
@@ -145,18 +145,28 @@ module.exports = generators.Base.extend({
           };
         }
       }
-      if (this.includeMdl) {
+      if (this.includeBulma) {
         if (this.includeSass) {
-          bowerJson.devDependencies['mdl'] = '~1.2.1';
+          bowerJson.devDependencies['bulma'] = '~0.7.4';
+
           bowerJson.overrides = {
-            'material-design-lite': {
+            'bulma': {
               'main': [
-                'src/material-design-lite.scss',
-                'src/**/*.js'
+                'bulma.sass'
               ]
             }
           };
+
         }
+        bowerJson.devDependencies['fontawesome'] = '~5.7.2';
+
+        bowerJson.overrides = {
+          'fontawesome': {
+            'main': [
+              'js/all.js'
+            ]
+          }
+        };
       }
       if (this.includeBourbon) {
         if (this.includeSass) {
@@ -191,12 +201,12 @@ module.exports = generators.Base.extend({
       }
 
       this.fs.writeJSON('bower.json', bowerJson);
-      this.fs.copy(sourceRoot + '\\.bowerrc',destRoot + '\\.bowerrc');
+      this.fs.copy(sourceRoot + '/.bowerrc',destRoot + '/.bowerrc');
     },
       // fin bower,
-      
+
     // style config
-  
+
     _styles: function () {
       var destRoot = this.destinationRoot(),
           sourceRoot = this.sourceRoot(),
@@ -208,18 +218,18 @@ module.exports = generators.Base.extend({
       } else {
         css += '.css';
       }
-      this.fs.copyTpl(sourceRoot + '\\app\\styles\\' + css, appDir + '/styles/' + css,{includeBootstrap: this.includeBootstrap, includeMdl: this.includeMdl,includeBourbon: this.includeBourbon,includeNeat: this.includeNeat});
-      this.fs.copyTpl(sourceRoot + '\\app\\styles\\demo\\demo.sass', appDir + '/styles/demo/demo.sass' ,{includeMdl: this.includeMdl,includeBourbon: this.includeBourbon,includeNeat: this.includeNeat});
-    }, 
+      this.fs.copyTpl(sourceRoot + '/app/styles/' + css, appDir + '/styles/' + css,{includeBootstrap: this.includeBootstrap, includeBulma: this.includeBulma,includeBourbon: this.includeBourbon,includeNeat: this.includeNeat});
+      this.fs.copyTpl(sourceRoot + '/app/styles/demo.scss', appDir + '/styles/demo.scss' ,{includeBulma: this.includeBulma,includeBourbon: this.includeBourbon,includeNeat: this.includeNeat});
+    },
       // fin styles,
-    
+
     // html config
-    
+
     _html: function () {
       var destRoot = this.destinationRoot(),
           sourceRoot = this.sourceRoot();
       var bsPath;
-      var mdlPath;
+      var bulmaPath;
 
       // path prefix for Bootstrap JS files
       if (this.includeBootstrap) {
@@ -230,27 +240,25 @@ module.exports = generators.Base.extend({
         } else {
           bsPath += 'bootstrap/js/';
         }
-      } else if (this.includeMdl) {
-        mdlPath = 'app/bower_components/';
+      } else if (this.includeBulma) {
+        bulmaPath = 'app/bower_components/fontawesome/js/';
 
         if (this.includeSass) {
-          mdlPath += 'mdl/src/';
-        } else {
-          mdlPath += 'material-design-lite/material.min.js';
+          bulmaPath += 'bulma/';
         }
       }
 
       if (this.includePug){
           if(this.includeBootstrap){
-              this.fs.copyTpl( 
-                sourceRoot + '\\app\\pugFiles\\layouts\\bslayouts.pug', 
-                destRoot + '/app/pugFiles/index.pug', { 
-                  appname: this.appname, 
-                  includeSass: this.includeSass, 
-                  includeBootstrap: this.includeBootstrap, 
-                  includeModernizr: this.includeModernizr, 
-                  includeJQuery: this.includeJQuery, 
-                  bsPath: bsPath, 
+              this.fs.copyTpl(
+                sourceRoot + '/app/pugFiles/layouts/bslayouts.pug',
+                destRoot + '/app/pugFiles/index.pug', {
+                  appname: this.appname,
+                  includeSass: this.includeSass,
+                  includeBootstrap: this.includeBootstrap,
+                  includeModernizr: this.includeModernizr,
+                  includeJQuery: this.includeJQuery,
+                  bsPath: bsPath,
                   bsPlugins:[
                     'affix',
                     'alert',
@@ -265,75 +273,58 @@ module.exports = generators.Base.extend({
                     'collapse',
                     'tab'
                   ]});
-          } else if(this.includeMdl){ 
-              this.fs.copyTpl(sourceRoot +'\\app\\pugFiles\\layouts\\mdllayouts.pug', 
+          } else if(this.includeBulma){
+              this.fs.copyTpl(sourceRoot +'/app/pugFiles/layouts/bulmalayout.pug',
+
               destRoot + '/app/pugFiles/index.pug',
               {
-              appname: this.appname, 
-              includeSass: this.includeSass, 
-              includeMdl: this.includeMdl, 
-              includeModernizr: this.includeModernizr, 
-              includeJQuery: this.includeJQuery, mdlPath: mdlPath, 
-              mdlPlugins: [
-                "mdlComponentHandler.js", 
-                "button/button.js", 
-                "checkbox/checkbox.js", 
-                "icon-toggle/icon-toggle.js", 
-                "menu/menu.js", 
-                "progress/progress.js", 
-                "radio/radio.js", 
-                "slider/slider.js", 
-                "spinner/spinner.js", 
-                "switch/switch.js", 
-                "tabs/tabs.js", 
-                "textfield/textfield.js", 
-                "tooltip/tooltip.js", 
-                "layout/layout.js", 
-                "data-table/data-table.js", 
-                "ripple/ripple.js", 
-                "scripts/main.js" 
-              ] } ); }
+              appname: this.appname,
+              includeSass: this.includeSass,
+              includeBulma: this.includeBulma,
+              includeModernizr: this.includeModernizr
+            } );
+          }
 
       } else{
-            this.fs.copyTpl(sourceRoot + '\\index.html',  
+            this.fs.copyTpl(sourceRoot + '/index.html',
               destRoot + '/app/index.html',
                 {
                   appname: this.appname,
-                  includeSass: this.includeSass, 
-                  includeBootstrap: this.includeBootstrap,               
-                  includeModernizr: this.includeModernizr, 
-                  includeJQuery: this.includeJQuery, 
+                  includeSass: this.includeSass,
+                  includeBootstrap: this.includeBootstrap,
+                  includeModernizr: this.includeModernizr,
+                  includeJQuery: this.includeJQuery,
                   bsPath: bsPath,
-                  bsPlugins: [ 
-                    'affix', 
-                    'alert', 
-                    'dropdown', 
-                    'tooltip', 
-                    'modal', 
-                    'transition', 
-                    'button', 
-                    'popover', 
-                    'carousel', 
-                    'scrollspy', 
-                    'collapse', 
-                    'tab'          
+                  bsPlugins: [
+                    'affix',
+                    'alert',
+                    'dropdown',
+                    'tooltip',
+                    'modal',
+                    'transition',
+                    'button',
+                    'popover',
+                    'carousel',
+                    'scrollspy',
+                    'collapse',
+                    'tab'
                   ]}
       );
       }
         },
-    
+
       // fin html
 
 
   // init (+ welcome text)
   initializing: function () {
-      var message = chalk.yellow.bold('Welcome to NSC Generator  \n ') + chalk.yellow(' The best Web Starter kit  \n Bootstrap sass mdl pug  ');
+      var message = chalk.yellow.bold('Welcome to NSC Generator  \n ') + chalk.yellow(' The best Web Starter kit  \n Bootstrap sass bulma pug  ');
       this.log(yosay(message, { maxLength: 20 }));
       this.pkg = require('../package.json');
   },
-  
+
   // prompting (all questions here)
-  
+
   prompting: function () {
 
       var prompts = [
@@ -387,7 +378,7 @@ module.exports = generators.Base.extend({
             name: 'bourbon',
             value: 'includeBourbon',
             checked: false
-            }, 
+            },
             {
             name: 'Neat',
             value: 'includeNeat',
@@ -395,21 +386,21 @@ module.exports = generators.Base.extend({
           }]
           },
         {
-        type: 'list',
+        type: 'checkbox',
         name: 'features',
         message: 'Which additional features would you like to include?  \n\n',
         choices: [ {
           name: 'Bootstrap',
           value: 'includeBootstrap',
         },{
-          name: 'MDL',
-          value: 'includeMdl',
+          name: 'Bulma',
+          value: 'includeBulma',
         },{
           name: 'Zurb Foundation 6',
           value: 'includeFoundation',
         }]
       },
-        
+
         {
         type: 'confirm',
         name: 'includeJQuery',
@@ -441,37 +432,38 @@ module.exports = generators.Base.extend({
         this.includeJQuery = answers.includeJQuery;
 
         // prepross / libs
-        
+
         this.includeSass = hasPrepross('includeSass');
         this.includePug = hasPrepross('includePug');
         this.includeBourbon = hasPrepross('includeBourbon');
         this.includeNeat = hasPrepross('includeNeat');
         this.includeModernizr = hasPrepross('includeModernizr');
-        
+
         // frameworks
-        
+
         this.includeBootstrap = hasFeature('includeBootstrap');
-        this.includeMdl = hasFeature('includeMdl');
+        this.includeBulma = hasFeature('includeBulma');
         this.includeMdl = hasFeature('includeFountation');
         this.includeMdl = hasFeature('includeSemanticUi');
 
 
       }.bind(this));
-    }, 
+    },
     // fin prompting
-  // yeoman config 
-  
+  // yeoman config
+
   configuring: function () {
     this.config.save();
   },
-  
+
   /**
-  * exec all functions 
+  * exec all functions
   * npm and bower installation
   */
-  
+
   writing:function () {
-    this._creatProjectFileSystem();
+    this._creatProjectFileSystem();6
+
     this._bower();
     this._git();
     this._styles();
@@ -480,7 +472,7 @@ module.exports = generators.Base.extend({
   install: function () {
       var install = chalk.white.bold('Installation  \n Running \n') + chalk.green('" npm install "\n && " bower install "  ');
       this.log(install, { maxLength: 25 });
-     //this.npmInstall();
+     this.npmInstall();
      this.bowerInstall();
 
   }
